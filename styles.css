@@ -3,7 +3,6 @@ table {
   font-family: Arial, sans-serif;
   border-collapse: collapse;
   width: 40%;
-  margin: 20px 200px 0 500px;
   table-layout: fixed;
 }
 
@@ -16,9 +15,7 @@ td, th {
   box-sizing: border-box; /* Ensure padding and border are included in the width */
   word-wrap: break-word;
 }
-h2{
-    margin: 20px 200px 0 500px;
-}
+
 
 th {
   background-color: #f2f2f2;
@@ -31,6 +28,5 @@ th {
 
 button {
   display: block;
-  margin: 100px 100px;
-  margin: 20px 200px 0 800px;
+
 }
