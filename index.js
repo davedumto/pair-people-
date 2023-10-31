@@ -1,58 +1,71 @@
+function addRow(tableId) {
+  var table = document.getElementById(tableId);
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  cell1.innerHTML = "<input type='text' />";
+  cell2.innerHTML = "<input type='text' />";
+  cell3.innerHTML = "<input type='text' />";
+}
 
-  const numberOfInputs = 70; // Change this value to adjust the number of inputs
+function pairTables() {
+  var table1 = document.getElementById("table1");
+  var table2 = document.getElementById("table2");
 
-  const generateTableRows = (tableId, tableNumber) => {
-    const table = document.getElementById(tableId);
-    for (let i = 0; i < numberOfInputs; i++) {
-      table.innerHTML += `
-        <tr>
-          <td contenteditable="true">Name ${tableNumber}-${i + 1}</td>
-          <td contenteditable="true">Phone ${tableNumber}-${i + 1}</td>
-          <td contenteditable="true">Gender ${tableNumber === 1 ? 'Male' : 'Female'}</td>
-        </tr>
-      `;
-    }
-  };
+  var malesTable1 = [];
+  var femalesTable1 = [];
+  var malesTable2 = [];
+  var femalesTable2 = [];
 
-  generateTableRows('table1', 1);
-  generateTableRows('table2', 2);
-
-  function pairPeople() {
-    const table1 = document.getElementById('table1');
-    const table2 = document.getElementById('table2');
-    const males1 = Array.from(table1.getElementsByTagName('tr')).filter(row => row.lastElementChild.textContent.toLowerCase().includes('male'));
-    const males2 = Array.from(table2.getElementsByTagName('tr')).filter(row => row.lastElementChild.textContent.toLowerCase().includes('male'));
-    const females1 = Array.from(table1.getElementsByTagName('tr')).filter(row => row.lastElementChild.textContent.toLowerCase().includes('female'));
-    const females2 = Array.from(table2.getElementsByTagName('tr')).filter(row => row.lastElementChild.textContent.toLowerCase().includes('female'));
-
-    males1.forEach((male, index) => {
-      const male1Name = male.querySelector(':nth-child(1)').textContent;
-      const male2 = males2[index];
-      const male2Name = male2 ? male2.querySelector(':nth-child(1)').textContent : 'No Pair';
-
-      const female = females1[index];
-      const female1Name = female ? female.querySelector(':nth-child(1)').textContent : 'No Pair';
-      const female2 = females2[index];
-      const female2Name = female2 ? female2.querySelector(':nth-child(1)').textContent : 'No Pair';
-
-      male.innerHTML += `<td>Paired with: ${male2Name}</td>`;
-      if (male2) male2.innerHTML += `<td>Paired with: ${male1Name}</td>`;
-
-      if (female) female.innerHTML += `<td>Paired with: ${female2Name}</td>`;
-      if (female2) female2.innerHTML += `<td>Paired with: ${female1Name}</td>`;
-    });
-
-    if (males1.length < males2.length) {
-      for (let i = males1.length; i < males2.length; i++) {
-        const male2 = males2[i];
-        male2.innerHTML += `<td>No Pair</td>`;
+  for (var i = 1; i < table1.rows.length; i++) {
+      var gender = table1.rows[i].cells[2].getElementsByTagName("input")[0].value.toLowerCase();
+      if (gender === "male") {
+          malesTable1.push(table1.rows[i]);
+      } else if (gender === "female") {
+          femalesTable1.push(table1.rows[i]);
       }
-    }
-
-    if (females1.length < females2.length) {
-      for (let i = females1.length; i < females2.length; i++) {
-        const female2 = females2[i];
-        female2.innerHTML += `<td>No Pair</td>`;
-      }
-    }
   }
+
+  for (var j = 1; j < table2.rows.length; j++) {
+      var gender = table2.rows[j].cells[2].getElementsByTagName("input")[0].value.toLowerCase();
+      if (gender === "male") {
+          malesTable2.push(table2.rows[j]);
+      } else if (gender === "female") {
+          femalesTable2.push(table2.rows[j]);
+      }
+  }
+
+  shuffle(malesTable1);
+  shuffle(malesTable2);
+  shuffle(femalesTable1);
+  shuffle(femalesTable2);
+
+  console.log("Males Table 1:");
+  console.log(malesTable1);
+  console.log("Males Table 2:");
+  console.log(malesTable2);
+  console.log("Females Table 1:");
+  console.log(femalesTable1);
+  console.log("Females Table 2:");
+  console.log(femalesTable2);
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
